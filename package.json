@@ -1,6 +1,6 @@
 {
   "name": "nc-neo4j",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": false,
   "description": "Neo4j Library wrapper based on node-neo4j",
   "main": "src/module",
@@ -19,7 +19,10 @@
   ],
   "author": "Gabriel Poama-Neagra",
   "contributors": [
-      { "name" : "Raul Geana" , "email" : "" }
+    {
+      "name": "Raul Geana",
+      "email": ""
+    }
   ],
   "license": "MIT",
   "homepage": "https://github.com/xeeo/nc-neo4j#readme",
