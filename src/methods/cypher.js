@@ -19,6 +19,8 @@ const mapOutput = function(results) {
         results.data.forEach((resultBlocks, i) => {
             const mappedResult = {};
 
+            resultBlocks = [].concat(resultBlocks);
+
             resultBlocks.forEach((result, j) => {
                 mappedResult[results.columns[j]] = result;
             });
