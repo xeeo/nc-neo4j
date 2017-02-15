@@ -1,30 +1,46 @@
 'use strict';
 
-let helpers = require('../helpers');
-let Promise = require('bluebird');
+const helpers = require('../helpers');
+const Promise = require('bluebird');
 
-let run = function() {
+const run = function() {
     return new Promise((resolve, reject) => {
-        this.connection.cypherQuery(this.q, this.params, function(error, result) {
-            if (error) {
-                return reject(error);
-            }
-
+        this.connection.cypherQuery(this.query, this.params, function(error, result) {
+            if (error) return reject(error);
             return resolve(result);
         });
     });
 };
 
-module.exports = function(q, params) {
-    let context = {
+const mapOutput = function(results) {
+    let mappedResults = [];
+
+    if (results && results.data && results.columns) {
+        results.data.forEach((resultBlocks, i) => {
+            const mappedResult = {};
+
+            resultBlocks.forEach((result, j) => {
+                mappedResult[results.columns[j]] = result;
+            });
+
+            mappedResults.push(mappedResult);
+        });
+    }
+
+    return mappedResults;
+};
+
+module.exports = function(query, params) {
+    const context = {
         plugin      : this,
         connection  : null,
-        q           : q,
+        query           : query,
         params      : params
     };
 
     return Promise.resolve()
         .bind(context)
         .then(helpers.connect)
-        .then(run);
+        .then(run)
+        .then(mapOutput);
 };
