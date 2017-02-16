@@ -3,59 +3,25 @@
 let helpers = require('../helpers');
 let Promise = require('bluebird');
 
-//let beginTransaction = function() {
-//    return new Promise((resolve, reject) => {
-//        this.connection.beginTransaction((error, result) => {
-//            if (error) {
-//                return reject(error);
-//            }
-//
-//            if (!result) {
-//                return reject(new Error('begin transaction returned no result'));
-//            }
-//
-//            this.transactionId = result._id;
-//            resolve(result);
-//        });
-//    });
-//};
-//
-//let addStatements = function() {
-//    return new Promise((resolve, reject) => {
-//        this.connection.addStatementsToTransaction(this.transactionId, this.statements, (error, result) => {
-//            if (error) {
-//                return reject({
-//                    error   : error,
-//                    result  : result
-//                });
-//            }
-//
-//            if (!result) {
-//                return reject(new Error('cannot add statements, transaction does not exist'));
-//            }
-//
-//            this.results = result.results;
-//
-//            resolve(result);
-//        });
-//    });
-//};
-//
-//let commit = function() {
-//    return new Promise((resolve, reject) => {
-//        this.connection.commitTransaction(this.transactionId, (error, result) => {
-//            if (error) {
-//                return reject(error);
-//            }
-//
-//            if (!result) {
-//                return reject(new Error('cannot commit, transaction does not exist'));
-//            }
-//
-//            resolve(this.results);
-//        });
-//    });
-//};
+const mapOutput = function(results) {
+    let mappedResults = [];
+
+    if (results && results.data && results.columns) {
+        results.data.forEach((resultBlocks, i) => {
+            const mappedResult = {};
+
+            resultBlocks = [].concat(resultBlocks);
+
+            resultBlocks.forEach((result, j) => {
+                mappedResult[results.columns[j]] = result;
+            });
+
+            mappedResults.push(mappedResult);
+        });
+    }
+
+    return mappedResults;
+};
 
 let beginAndCommit = function() {
     return new Promise((resolve, reject) => {
@@ -78,16 +44,14 @@ module.exports = function(statements) {
         plugin          : this,
         connection      : null,
         transactionId   : null,
-        statements      : statements,
+        statements      : { statements: statements },
         results         : null
     };
 
     return Promise.resolve()
         .bind(context)
         .then(helpers.connect)
-        .then(beginAndCommit);
+        .then(beginAndCommit)
+        .then(mapOutput);
 
-        //.then(beginTransaction)
-        //.then(addStatements)
-        //.then(commit);
 };

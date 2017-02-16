@@ -2,10 +2,10 @@
 
 require('../lib/chai');
 
-let Plugin      = require('../../');
-let Hoek        = require('hoek');
+let Plugin = require('../../');
+let Hoek   = require('hoek');
 
-let mocks       = require('../mocks');
+let mocks = require('../mocks');
 
 describe('Neo4J.transaction', function() {
     before(function() {
@@ -19,28 +19,26 @@ describe('Neo4J.transaction', function() {
     it('should run query', function() {
         let plugin = new Plugin();
 
-        let statements = {
-            statements: [
-                {
-                    statement   : 'CREATE (n:Car:Test {props}) RETURN n',
-                    parameters  : {
-                        props: {
-                            make: 'Honda Civic',
-                            year: 2015
-                        }
-                    }
-                },
-                {
-                    statement   : 'CREATE (n:Car:Test {props}) RETURN n',
-                    parameters  : {
-                        props: {
-                            make: 'Opel Astra',
-                            year: 2009
-                        }
+        let statements = [
+            {
+                statement : 'CREATE (n:Car:Test {props}) RETURN n',
+                parameters: {
+                    props: {
+                        make: 'Honda Civic',
+                        year: 2015
                     }
                 }
-            ]
-        };
+            },
+            {
+                statement : 'CREATE (n:Car:Test {props}) RETURN n',
+                parameters: {
+                    props: {
+                        make: 'Opel Astra',
+                        year: 2009
+                    }
+                }
+            }
+        ];
 
         plugin.config(mocks.config);
 
