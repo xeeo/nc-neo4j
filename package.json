@@ -1,6 +1,6 @@
 {
   "name": "nc-neo4j",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "private": false,
   "description": "Neo4j Library wrapper based on node-neo4j",
   "main": "src/module",
