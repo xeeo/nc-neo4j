@@ -28,7 +28,6 @@
   "homepage": "https://github.com/xeeo/nc-neo4j#readme",
   "dependencies": {
     "bluebird": "^3.3.5",
-    "hoek": "^3.0.4",
     "nc-singleton": "^1.0.1",
     "node-neo4j": "^2.0.3"
   },
@@ -36,6 +35,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
     "chai-things": "^0.2.0",
+    "hoek": "^3.0.4",
     "mocha": "^2.4.5"
   }
 }

@@ -19,10 +19,7 @@ class Module {
     }
 }
 
-fs.readdirSync(__dirname + '/methods').forEach((file) => {
-    var method = file.substr(0, file.indexOf('.'));
-
-    Module.prototype[method] = require('./methods/' + method);
-});
+Module.prototype.cypher      = require('./methods/cypher');
+Module.prototype.transaction = require('./methods/transaction');
 
 module.exports = Module;
